@@ -15,7 +15,7 @@ This plugin adds the possibility to reward your players for saying GG in chat af
 
 :warning: **Read the wiki for more information!**
 ## Resources
-- [SpigotMC](https://www.spigotmc.org/resources/X/)
+- [SpigotMC](https://alonsoaliaga.com/AlonsoGG)
 - [Issue tracker](https://github.com/AlonsoAliaga/AlonsoGG/issues)
 - [Donate](https://paypal.me/AlonsoAliaga)
 - [bStats](https://bstats.org/plugin/bukkit/AlonsoGG/17816/)
