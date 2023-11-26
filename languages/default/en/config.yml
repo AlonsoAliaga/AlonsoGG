@@ -1,0 +1,255 @@
+#From AlonsoGG version 0.1-BETA
+#                _   _                   ___  ___            Our plugins: https://alonsoaliaga.com/plugins
+#               /_\ | |___ _ _  ___ ___ / __|/ __|           Support server: https://alonsoaliaga.com/discord
+#              / _ \| / _ \ ' \(_-</ _ \ (_ | (_ |           Youtube: https://alonsoaliaga.com/play
+#             /_/ \_\_\___/_||_/__/\___/\___|\___|           Test server: plugins.alonsoaliaga.com
+#                      by AlonsoAliaga                       Twitch: https://alonsoaliaga.com/twitch
+#   Considering donating? https://alonsoaliaga.com/donate    Thanks for using my plugin <3
+Messages:
+  No-permission: "&cYou don't have permission to do this."
+  User-no-permission: "&cYou don't have permission to do this."
+  Reloaded: "&aSome messages and options have been reloaded. Other may require a restart!"
+  Invalid-player: "&cPlayer is not online!"
+  Invalid-players: "&cPlayers are not online!"
+  Please-reconnect: "&cPlease, reconnect to the server!"
+  Please-reconnect-other: "&cTell player {PLAYER} to reconnect to the server!"
+  Set-timer:
+    Negative-number: "&cTime must be in ticks and be a valid number greater or equal than zero."
+    Invalid-type: "&cType {TYPE} is not a valid reward type!"
+    Success: "&aYou allowed {PLAYER} to use GG for {TIME} ticks!"
+  Stop-timer:
+    No-timer: "&cTarget {PLAYER} didn't have any pending gg."
+    Success: "&cYou stopped {PLAYER} timer. He cannot use GG to receive rewards!"
+  Clear-all:
+    Success: "&cSuccessfully cleared all timers."
+  Help:
+    Admin:
+    - "&6 /alonsogg settimer <player> <ticks> &f- &eAllow player to use GG for X ticks."
+    - "&6 /alonsogg stoptimer <player> &f- &eStops timer and prevent player from using GG."
+    - "&6 /alonsogg clearall &f- &eStops timers for all players."
+    - "&6 /alonsogg reload &f- &eReload configuration (Restart recommended)"
+    User: []
+  Auto-gg:
+    No-permission: "&cPurchase rank &a[RANK]&c on &bstore.yournetwork.net&c to enable &6&lAutoGG&c!"
+    Enabled: "&aYou enabled &6&lAutoGG&a!"
+    Disabled: "&cYou disabled &6&lAutoGG&c!"
+  Placeholders:
+    Not-pending-gg: "&cNo pending GG."
+    Pending-gg: "&aYou have {LEFT-TIME} left!"
+  Leaderboards:
+    Signs:
+      Gg-amount:
+        Rank:
+        - "&c--&e #{RANKING} &c--"
+        - "&f{PLAYER}"
+        - "&b{SCORE} GGs"
+        - "&c-------------"
+        None:
+        - "&c--&e #{RANKING} &c--"
+        - "&cNo player"
+        - "&bUnknown"
+        - "&c-------------"
+    Placeholders:
+      Disabled: "&7Leaderboards not available!"
+      Gg-amount:
+        No-name: "&7Unknown"
+        No-score: "&7Unknown"
+        Rank: "&e{RANKING}. &b{PLAYER} &7- &e{SCORE}"
+        None: "&7No data available"
+
+Permissions:
+  #Permission required to access help message from /alonsogg
+  #By default it doesn't require permission. Set to "none" to disable.
+  User: "none"
+  Admin: "alonsogg.admin"
+  Golden-gg: "alonsogg.golden-gg"
+  #This permission does NOTHING by itself. This makes that if the player is allowed to use GG
+  #to receive rewards using commands or the API. It will automatically attempt to say "gg" in chat.
+  Auto-gg: "alonsogg.auto-gg"
+
+Options:
+  #Enable only if the developer asks you to do it otherwise you'll get a big spam in console and server chat.
+  Debug: false
+  #Option added to hide some information on load like "Loading X feature.." if there are too many of them.
+  #Might not apply in all cases as some log ARE NECESSARY for me to understand issues if you have any. Don't insist.
+  Log-mode: true
+  Command:
+    #Custom aliases. REQUIRES RESTART TO APPLY CHANGES.
+    Aliases:
+    - "agg"
+  Colors:
+    #This is an attempt to make hex color look as close as possible to minecraft native colors for 1.8 - 1.15 players.
+    Fix: true
+  Placeholders:
+    #This is ONLY USED FOR %advancedchat_restorehex_ANOTHERPLACECHOLDER%
+    #Do NOT modify if you don't know what it does.
+    Hex-format: "&#{COLOR}"
+  Server:
+    #This is the internal identifier of THIS server. This name is NOT related
+    #to bungeecord server names. This is used at SPIGOT level as identifer
+    #for this server when storing data of the player in the database.
+    #To update this you MUST RESTART THE SERVER.
+    #Identifier must be lower case and can only contain dashes. (Not at the beginning or end)
+    Identifier: "lobby"
+  GG:
+    Message-to-replace: "gg"
+    #Message that will replace player's message.
+    Message: "&6&lGG"
+    #Commands that will be run
+    Types:
+      #DO NOT REMOVE "default" type.
+      #Identifier must be lower case and can only contain dashes. (Not at the beginning or end)
+      default:
+        Notification:
+        - "[MESSAGE]&aThe game has ended. Type &bgg&a to receive a reward!"
+        Rewards:
+        - "[MESSAGE]&d+5 coins &7(Thanks for playing!)"
+        - "[CONSOLE]eco give {PLAYER} 5"
+        - "[CONSOLE]alonsolevels addrandomexp {PLAYER} 5 10 true false"
+      winners:
+        Notification:
+        - "[MESSAGE]&aThe game has ended. Type &bgg&a to receive a reward!"
+        Rewards:
+        - "[MESSAGE]&d+5 coins &7(Thanks for playing!)"
+        - "[CONSOLE]eco give {PLAYER} 5"
+        - "[CONSOLE]alonsolevels addrandomexp {PLAYER} 5 10 true false"
+      losers:
+        Notification:
+        - "[MESSAGE]&aThe game has ended. Type &bgg&a to receive a reward!"
+        Rewards:
+        - "[MESSAGE]&d+5 coins &7(Thanks for playing!)"
+        - "[CONSOLE]eco give {PLAYER} 5"
+        - "[CONSOLE]alonsolevels addrandomexp {PLAYER} 5 10 true false"
+    Auto-gg:
+      Command:
+        #Custom aliases. REQUIRES RESTART TO APPLY CHANGES.
+        Aliases: []
+      #Delay before plugin attempts to make the player say "gg" in chat when allowed to receive
+      #rewards. This work when using commands or the API.
+      Delay: 20
+      #This is the value taken for players who hasn't used toggle command to toggle autogg status.
+      Default-value: true
+      #This is a brand new feature that "adds compatibility" with vanished/staff-mode plugins
+  Exceptions:
+    #Enable this ONLY if you want this feature to work.
+    #Make sure you also edit, add or remove the values you don't need.
+    #Make sure you ONLY KEEP the values you need to not affect performance.
+    Enabled: true
+    #Which should be cancelled when player is invisible/vanished?
+    # CHAT - The rewards are being sent, only chat event is cancelled.
+    # ALL - Player will not receive any order for autogg.
+    Cancel-mode: CHAT
+    #Notify the player that he was vanished and didn't receive reward or similar.
+    #If "false" player won't receive a message!
+    Notify-player: true
+    #This is the permission required to be able to recognized as "staff".
+    #Only when players with THIS PERMISSION join the server the checks will be made.
+    #You can algo give this permission to youtuber if you have a disguise plugin.
+    Permission: "alonsojoin.staff"
+    Metadatas:
+    - "Vanished"
+    - "vanished"
+    Placeholders:
+      #Make sure you ONLY enable the ONES YOU NEED.
+      #If you don't have SuperVanish plugin, REMOVE THAT LINE line. DON'T SIMPLY CHANGE TO "false". REMOVE IT!!!!!!!!!!!
+      #If the vanish plugin you use is not listed below, add the placeholder including %
+      #and define the expected value so the player is recognized as vanished player.
+      "%supervanish_isvanished%": "true"
+      "%premiumvanish_isvanished%": "true"
+      "%stafffacilities_vanished%": "true"
+      "%protocolvanish_player_is_vanished%": "true"
+      "%essentials_vanished%": "yes"
+
+  #This is the amount of ticks the plugin will wait before loading data.
+  #Useful if your have issues with players "losing" their stats on server change or reconnect.
+  #Set to 0 to disable. If enabled, it's like that some plugins that send messages on join will not fetch correct data from placeholders.
+  #To "fix" this use this plugin made by our team which adds messages on player join with an option to set delay.
+  #We also support placeholder check to prevent message to be sent when player is in vanish mode. (Using placeholder to check if player is vanished)
+  #Check our plugin on https://alonsoaliaga.com/AlonsoJoin (If available)
+  Data-delay: 30
+  Leaderboards:
+    #If enabled, leaderboards will be loaded.
+    Enabled: true
+    #Amount in minutes before first attempt to load data from database is made.
+    First-delay: 3
+    #Interval in minutes between plugin attempts to load information AND update leaderboards.
+    #Recommended 10 minutes.
+    Interval: 10
+    #Play particles if AlonsoLeaderboards is installed when updating sign.
+    Play-flames: true
+  Auto-save:
+    #Time in minutes to auto save player data. Minimum 0 (If zero it will be disabled). Recommended 7.
+    #Remember this is REQUIRED for Leaderboards!!!
+    Interval: 7
+
+Database:
+  #Available types: SQLite, MySQL, HikariCP and IwantMySQL
+  #You can use MySQL to make it global or you can use SQLite to make it local.
+  #MySQL requires a server (local or external) it uses HikariCP <=========== BY DEFAULT as it's faster.
+  #SQLite doesn't require anything, it's saved in a db file in the folder.
+  #IN CASE YOU WANT TO USE MYSQL AND NOT HIKARICP YOU MUST USE
+  #      Type: "IWantMySQL"    <---- Yes, like that.
+  Type: "SQLite"
+  Table: "alonsogg"
+  #If type is SQLite
+  File: "database-alonsogg"
+  #If type is MySQL or HikariCP
+  Host: 127.0.0.1
+  Port: 3306
+  Database: "alonsogg"
+  Username: "root"
+  Password: "12345"
+  #Used to keep connection alive to prevent connection timeout.
+  #Time is in minutes. Every X minutes the plugin will run a test query to keep connection alive. Recommended 30. Minimum 5.
+  Keep-connection-interval: 30
+  #Modify this just if you know what you are doing.
+  #This will be added at the end of database url (in SQLITE and in MySQL).
+  #HOWEVER THERE IS NO WARRANTY THAT THIS WORK WITH SQLITE, SO PLEASE LEAVE IT EMPTY IF YOU ARE USING SQLITE.
+  #Useful if you want to set useSSL or autoReconnect or any other modifier.
+  #Make sure you know what you are doing before modifying this option.
+  #Remember you need to add a question mark (?) if you are using a property, OTHERWISE leave empty.
+  #Example: "?useSSL=false"
+  #Remember this only applies if you are using "IWantMySQL", for MySQL and HikariCP you need to use options below.
+  Additional-url: "?useSSL=false"
+  #Not available for SQLite or "IWantMySQL"
+  HikariCP:
+    #It will use HikariCP if available. This works for everything EXCEPT SQLite as you can have only one connection opened in SQLite.
+    #This plugin only supports SQLite and variants (MariaDB for example which runs with the same code).
+    #Any other database type WILL NOT BE ADDED. Don't insists asking for mongodb support or any other type, thanks.
+    Enabled: true
+    Warning:
+    - "Using HikariCP will make the process of getting/saving data faster. This SHOULD (not tested) work correctly."
+    - "However, it will also increase a lot the amount of active/opened connections to your database simultaneously."
+    - "This means that if you have 20 servers using this option with a Pool-size of 5. you'll have in total 100 active connections."
+    - "If you don't/can't modify the max amount of connections in your sql server you should not use this option as new connections"
+    - "won't be established and your plugins will fail. Use ONLY if you can set your max connections amount to greater numbers like 500+"
+    - "depending on how many servers you might have using this database."
+    - "Remember that if more than one plugin uses this, you'll have even MORE active connections and probably reach the limit"
+    - "even faster. Make sure you set max amount of connections in your server options to numbers like 1000 or more if you"
+    - "plan to use the same database with pool size options."
+    #Maximum pool size. A greater the value means that more connections will be opened and remain opened. Minimum 1.
+    #This option is ONLY AVAILABLE if you are using HikariCP which requires.
+    #READ WARNING BEFORE USING THIS OPTION/ADDON.
+    #If you set this to high values, your database would probably reach max connections limit really fast.
+    #Make sure you increase this ONLY if you are using it in a single server (no bungeecord) or you are sure
+    #you have enough connections amount available. (If you increased your database max connections amount).
+    Pool-size: 3
+    #Don't change this unless you know what it is. By default it uses SQLite and MySQL.
+    #List of popular data sources classes name can be found here https://alonsoaliaga.com/HikariCP-Class-names
+    Custom-source-class-name: "default"
+    #If you don't need this simply remove the section or leave it as Source-properties: {}
+    Source-properties:
+      "useSSL": false
+      "requireSSL": false
+
+Updates:
+  #Auto update configuration? Enabling will delete comments.
+  Auto-update-configuration: true
+  #Check for updates? Recommended to keep it enabled.
+  Check-updates: true
+  #Notify updates when player with permission joins the server?
+  Notify-updates: true
+  #Permission required to receive update message.
+  Permission: "alonsogg.update"
+  #Message to send when update is found.
+  Message: "&6[AlonsoGG] &eA new update has been found! You are using version {CURRENT}. Download version {NEW} here &c{LINK}"
